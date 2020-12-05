@@ -1,60 +1,46 @@
 # Advent of Code 2020
 # Day 3, Part 1
-# December x, 2020
+# December 5, 2020
 
 file_name = "day3-input.dat"
 
 with open(file_name) as file_contents:
    line_content = file_contents.readlines()
-   valid_cnt  = 0
 
-   for idx in range(len(line_content)):
-      curr_line = line_content[idx].rstrip()
+   # intialize coordinates and tree count
+   curr_row = 0
+   curr_col = 0
+   tree_cnt = 0
 
-      # split current line into
-      # - character positions
-      # - character
-      # - password
-      loc1  = curr_line.find('-')
-      loc2  = curr_line.find(' ')
-      loc3  = curr_line.find(':')
+   # set slope and map width
+   right = 3
+   down  = 1
+   width = len(line_content[0].rstrip()) - 1
 
-      char_pos1 = int(curr_line[:loc1])
-      char_pos2 = int(curr_line[loc1+1:loc2])
-      char_rule = curr_line[loc2+1:loc3]
-      passwd    = curr_line[loc3+2:]
-      char_cnt  = 0
+   for curr_row in range(len(line_content) - 1):
+      curr_line = line_content[curr_row + 1].rstrip()
+      wrapped = bool(False)
+
+      # advance, wrap around if needed
+      if ((curr_col + right) > width):
+         wrapped = bool(True)
+         curr_col = (curr_col - width) + (right - 1) 
+      else:
+         curr_col += right
+
+      # check for a tree, keep count
+      curr_char = curr_line[curr_col]      
+      if (curr_char == '#'):
+         tree_cnt += 1
 
       # debugging block
-      #print('Line: ', curr_line)
-      #print('Loc1: ', loc1)
-      #print('Loc2: ', loc2)
-      #print('Loc3: ', loc3)
-      #print('Pos1: ', char_pos1)
-      #print('Pos2: ', char_pos2)
-      #print('Char: ', char_rule)
-      #print('Pwd:  ', passwd)
-      #print('Ocurs:', char_cnt, end = "")
+      #print('\nLine', curr_row + 1, ': ', curr_line)
+      #print('Col:  ', curr_col, end='')
+      #if wrapped:
+      #   print(' (wrapped around)')
+      #else:
+      #   print('')
+      #print('Char: ', curr_char)
 
-      # check for character location in the two positions
-      # subtract one from the position to account for index zero in string
-      if (passwd[char_pos1-1] == char_rule):
-         #print(char_rule, ' occurs at position ', char_pos1)
-         char_cnt = char_cnt + 1
-         #print(char_cnt)
-      if (passwd[char_pos2-1] == char_rule):
-         #print(char_rule, ' occurs at position ', char_pos2)
-         char_cnt = char_cnt + 1
-         #print(char_cnt)
-    
-      # character is only allowed to occur in one of the two positions, so
-      # check for a valid password and keep count 
-      if (char_cnt == 1):
-         #print('Valid!\n')  
-         valid_cnt += 1
-      else:
-         #print('** INVALID **\n')
-         pass
-      
-   print('\nThe total # of valid passwords is: ', valid_cnt, '\n')
+   print('\nThe total # of trees encountered for slope ', right, '/', down, ' is: ', tree_cnt, '\n')
 
