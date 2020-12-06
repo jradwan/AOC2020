@@ -1,11 +1,12 @@
 # Advent of Code 2020
-# Day 5, Part 1
+# Day 5, Part 2
 # December 5, 2020
 
 def process_boarding_pass():
 
    global curr_pass
    global high_seat
+   global seat_list
 
    # determine row_num
    row_id = curr_pass[:7]
@@ -35,9 +36,12 @@ def process_boarding_pass():
 
    # calculate seat_id
    seat_id = (row_num * 8) + col_num
-   print('Seat ID: ', seat_id)
+   #print('Seat ID: ', seat_id)
    if (seat_id > high_seat):
       high_seat = seat_id
+
+   # store seat id in a list for later
+   seat_list.append(seat_id)
 
 # end process_boarding_pass
 
@@ -58,6 +62,7 @@ with open(file_name) as file_contents:
    col_num   = 0
    seat_id   = 0
    high_seat = 0
+   seat_list = []
    length    = len(line_content) - 1
 
    while curr_row <= length:
@@ -67,4 +72,15 @@ with open(file_name) as file_contents:
       process_boarding_pass()
       curr_row += 1
 
-   print('\nHighest seat ID: ', high_seat, '\n')
+   # sort the list of assigned seats
+   seat_list.sort()
+
+   # find the unassigned seat
+   seat_cnt  = 0
+   while seat_cnt < len(seat_list) - 1:
+      #print('\ncurr seat: ', seat_list[seat_cnt])
+      if ((seat_list[seat_cnt] + 1) != seat_list[seat_cnt + 1]):
+         missing_seat = seat_list[seat_cnt] + 1
+      seat_cnt +=1
+
+   print('\nYour assigned seat is: ', missing_seat, '\n')
