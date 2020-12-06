@@ -8,6 +8,7 @@ def process_group():
 
    global ans_cnt
    global curr_grp
+   global ind_cnt
 
    # count occurences of each character
    grp_sum = Counter(curr_grp)
