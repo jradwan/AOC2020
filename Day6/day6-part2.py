@@ -1,5 +1,5 @@
 # Advent of Code 2020
-# Day 5, Part 2
+# Day 6, Part 2
 # December 6, 2020
 
 from collections import Counter

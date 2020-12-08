@@ -1,5 +1,5 @@
 # Advent of Code 2020
-# Day 5, Part 1
+# Day 6, Part 1
 # December 6, 2020
 
 file_name = "day6-input.dat"
